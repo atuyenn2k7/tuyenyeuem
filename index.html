@@ -274,5 +274,77 @@
 
   window.addEventListener('click', enableMusic);
 </script>
+<body>
+  <style>
+  #running-text {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 10px 0;
+    font-family: 'Orbitron', monospace;
+    font-size: 15px;
+    font-weight: 700;
+    white-space: nowrap;
+    overflow: hidden;
+    background: rgba(0,0,0,0.5);
+    user-select: none;
+    z-index: 9999;
+  }
 
+  #running-text span {
+    display: inline-block;
+    padding-left: 100%;
+    animation: marquee 15s linear infinite;
+    background: linear-gradient(270deg, #ff69b4, #ff8c00, #00ffff, #ff69b4);
+    background-size: 600% 600%;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    animation: marquee 15s linear infinite, colorShift 10s ease-in-out infinite;
+  }
+
+  @keyframes marquee {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-100%);
+    }
+  }
+
+  @keyframes colorShift {
+    0% {background-position: 0% 50%;}
+    50% {background-position: 100% 50%;}
+    100% {background-position: 0% 50%;}
+  }
+</style>
+
+<div id="running-text">
+  <span id="countdown-text">Vậy là chúng mình đã bên nhau được … ngày ❤️</span>
+</div>
+
+<script>
+  const startDate = new Date('2025-05-02T22:08:00');
+
+  function updateCountdown() {
+    const now = new Date();
+    const diffMs = now - startDate; // hiệu số miliseconds
+    if(diffMs < 0) {
+      document.getElementById('countdown-text').textContent = "Chưa đến ngày kỷ niệm nhé! ❤️";
+      return;
+    }
+
+    const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+    const diffHours = Math.floor((diffMs % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+    const diffMinutes = Math.floor((diffMs % (1000 * 60 * 60)) / (1000 * 60));
+    const diffSeconds = Math.floor((diffMs % (1000 * 60)) / 1000);
+
+    const text = `Vậy là chúng mình đã bên nhau được ${diffDays} ngày ${diffHours} giờ ${diffMinutes} phút ${diffSeconds} giây ❤️`;
+    document.getElementById('countdown-text').textContent = text;
+  }
+
+  setInterval(updateCountdown, 1000);
+  updateCountdown();
+</script>
+</body>
 </html>
